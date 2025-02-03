@@ -16,8 +16,8 @@ export class TasksComponent {
 
   private tasksService = inject(TasksService);
   userId = input.required<string>();
-  //order = input<'asc' | 'desc'>('asc');
-  order?: 'asc'|'desc';
+  order = input<'asc' | 'desc'>('asc');
+ 
   private  activatedRoute = inject(ActivatedRoute);
   userTasks = computed(() => this.tasksService.allTasks().filter(task => task.userId === this.userId()));
   //private d
