@@ -11,5 +11,5 @@ import { type User } from './user.model';
 export class UserComponent {
   user = input.required<User>();
 
-  imagePath = computed(() => 'users/' + this.user().avatar);
+  imagePath = computed(() => 'assets/' + this.user().avatar);
 }
