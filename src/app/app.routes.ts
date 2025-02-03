@@ -1,4 +1,4 @@
-import { Route, Routes, provideRouter } from "@angular/router";
+import { Routes } from "@angular/router";
 import { TasksComponent } from "./tasks/tasks.component";
 import { NoTaskComponent } from "./tasks/no-tasks/no-task.component";
 
