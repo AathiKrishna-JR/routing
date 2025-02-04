@@ -21,7 +21,8 @@ export const routes : Routes = [
                 message : 'Hello!'
             },
             resolve : {
-                userName: resolveUserName
+                userName: resolveUserName,
+                someOtherData : someOtherResolver
             }
         
     },

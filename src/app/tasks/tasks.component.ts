@@ -1,41 +1,44 @@
-import { Component, DestroyRef, OnInit, computed, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+} from '@angular/core';
+import { ResolveFn, RouterLink } from '@angular/router';
 
 import { TaskComponent } from './task/task.component';
-import { Task } from './task/task.model';
 import { TasksService } from './tasks.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Task } from './task/task.model';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
-  imports: [TaskComponent,RouterLink],
+  imports: [TaskComponent, RouterLink],
 })
-export class TasksComponent implements OnInit{
- 
-
-  private tasksService = inject(TasksService);
+export class TasksComponent {
+  userTasks = input.required<Task[]>();
   userId = input.required<string>();
- // order = input<'asc' | 'desc'>('asc');
- order = signal<'asc'|'desc'>('asc');
-  private  activatedRoute = inject(ActivatedRoute);
-  userTasks = computed(() => this.tasksService.allTasks().filter(task => task.userId === this.userId())
-  .sort((a,b) => {
-    if(this.order() === 'desc'){
-      return a.dueDate > b.dueDate ? -1 : 1
-    }else{
-      return a.dueDate > b.dueDate ? 1: -1
-    }
-  }));
- private destroyRef = inject(DestroyRef);
-  
-private activated = inject(ActivatedRoute);
-ngOnInit(): void {
- const subs = this.activatedRoute.queryParams.subscribe({
-  next : params => this.order.set(params['order']),
- });
- this.destroyRef.onDestroy(() =>subs.unsubscribe());
+  order = input<'asc' | 'desc' | undefined>();
 }
 
-}
+export const resolveUserTasks: ResolveFn<Task[]> = (
+  activatedRouteSnapshot,
+  routerState
+) => {
+  const order = activatedRouteSnapshot.queryParams['order'];
+  const tasksService = inject(TasksService);
+  const tasks = tasksService
+    .allTasks()
+    .filter(
+      (task) => task.userId === activatedRouteSnapshot.paramMap.get('userId')
+    );
+
+  if (order && order === 'asc') {
+    tasks.sort((a, b) => (a.dueDate> b.dueDate ? 1 : -1));
+  } else {
+    tasks.sort((a, b) => (a.dueDate > b.dueDate ? -1 : 1));
+  }
+
+  return tasks.length ? tasks : [];
+};

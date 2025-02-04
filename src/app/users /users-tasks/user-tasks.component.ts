@@ -10,15 +10,27 @@ import { Subscription } from 'rxjs';
   templateUrl: './user-tasks.component.html',
   styleUrl: './user-tasks.component.css',
 })
-export class UserTasksComponent {
+export class UserTasksComponent implements OnInit {
+
   
   userName = input.required<string>();
   message = input<string>('');
   //userId = input.required<string>();
-//   private destroyRef = inject(DestroyRef);
-//   private userService = inject(UsersService);
-//  private activatedRoute = inject(ActivatedRoute)
+// private destroyRef = inject(DestroyRef);
+// private userService = inject(UsersService);
+// private activatedRoute = inject(ActivatedRoute)
  // userName = computed(() => this.userService.users.find( u => u.id === this.userId())?.name);
+  private activatedRoute = inject(ActivatedRoute)
+
+  ngOnInit(): void {
+      this.activatedRoute.data.subscribe({
+        next : data => {
+          console.log(data);
+          
+        }
+      })
+  }
+
 
 }
 export const resolveUserName : ResolveFn<string> = (activatedRoute : ActivatedRouteSnapshot, routerState :RouterStateSnapshot) => {
