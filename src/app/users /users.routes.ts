@@ -8,7 +8,7 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'tasks',
     pathMatch: 'full',
-    title : 'Home'
+   
   },
   {
     path: 'tasks', // <your-domain>/users/<uid>/tasks

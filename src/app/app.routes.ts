@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { TasksComponent } from "./tasks/tasks.component";
 import { NoTaskComponent } from "./tasks/no-tasks/no-task.component";
-import { UserTasksComponent, resolveUserName } from "./users /users-tasks/user-tasks.component";
+import { UserTasksComponent, resolveTitle, resolveUserName } from "./users /users-tasks/user-tasks.component";
 import { NewTaskComponent } from "./tasks/new-tasks/new-task.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import {routes as userRoutes} from "./users /users.routes"
@@ -11,6 +11,7 @@ export const routes : Routes = [
        component: NoTaskComponent,
         // redirectTo : '/users/u1',
         // pathMatch : 'full'
+        title : 'Home'
     }
     ,{
         
@@ -22,9 +23,8 @@ export const routes : Routes = [
             },
             resolve : {
                 userName: resolveUserName,
-                someOtherData : someOtherResolver
-            }
-        
+            },
+            title : resolveTitle
     },
     {
         path : '**',
