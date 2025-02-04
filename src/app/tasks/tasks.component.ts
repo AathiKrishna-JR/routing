@@ -23,9 +23,9 @@ export class TasksComponent implements OnInit{
   userTasks = computed(() => this.tasksService.allTasks().filter(task => task.userId === this.userId())
   .sort((a,b) => {
     if(this.order() === 'desc'){
-      return a.dueDate > a.dueDate ? -1 : 1
+      return a.dueDate > b.dueDate ? -1 : 1
     }else{
-      return a.dueDate > a.dueDate ? 1: -1
+      return a.dueDate > b.dueDate ? 1: -1
     }
   }));
  private destroyRef = inject(DestroyRef);
